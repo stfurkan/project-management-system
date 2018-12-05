@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Employees - {{ block.super }}
+{% endblock %}
+a
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'home' %}">Projects</a></li>
+{% endblock %}
+
+
+{% block content %}
+  <div class="mb-4">
+    <a href="{% url 'create_employee' %}" class="btn btn-primary">New Employee</a>
+    <a href="{% url 'assign_employee' %}" class="btn btn-primary">Assign Employee to Task</a>
+  </div>
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Employee Name</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employee in employees %}
+        <tr>
+          <td>{{ employee.name }}</td>
+          <td><a href="#" class="btn btn-warning">EDIT</a>    <a href="#" class="btn btn-danger">DELETE</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

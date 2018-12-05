@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Projects</li>
+{% endblock %}
+
+{% block content %}
+      <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Project</th>
+            <th>Start Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for project in projects %}
+            <tr>
+              <td>
+                <a href="{% url 'project_tasks' project.pk %}">{{ project.name }}</a>
+                <small class="text-muted d-block">{{ project.description }}</small>
+              </td>
+              <td class="align-middle">{{ project.start_date }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+{% endblock %}

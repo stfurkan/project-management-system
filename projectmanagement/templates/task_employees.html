@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}{{ task.first.task_id }}{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'home' %}">Projects</a></li>
+  <li class="breadcrumb-item active">{{ project.name }}</li>
+  <li class="breadcrumb-item active">{{ taskx.first.subject }}</li>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="sel1">Employee Name</label>
+      <select class="form-control" id="employee" name="employee_id">
+        {% for employee in employeex %}
+          <option>{{ employee }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <input type="hidden" name="task_id" value="{{ taskx.first.subject }}">
+    <button type="submit" formaction="{% url 'save_employee_task' %}" class="btn btn-success">Assign Employee to Task</button>
+  </form>
+</div>
+<br>
+<table class="table">
+  <thead class="thead-inverse">
+    <tr>
+      <th>Employee Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for employee in task.all %}
+      <tr>
+        <td>{{ employee.employee_id }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+{% endblock %}

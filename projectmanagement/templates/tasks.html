@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ project.name }} - {{ block.super }}
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'home' %}">Projects</a></li>
+  <li class="breadcrumb-item active">{{ project.name }}</li>
+{% endblock %}
+
+
+{% block content %}
+  <div class="mb-4">
+    <a href="{% url 'new_task' project.pk %}" class="btn btn-primary">New Task</a>
+  </div>
+  <div class="mb-4">
+    Project Manager(s):
+    {% for pm in pms %}
+      {{ pm.pm_id }}
+    {% endfor %}
+  </div>
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Task</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in project.tasks.all %}
+        <tr>
+          <td><a href="{% url 'task_employees' project.pk task.pk %}">{{ task.subject }}</a></td>
+          <td>{{ task.start_date }}</td>
+          <td>{{ task.end_date }}</td>
+          <td><a href="{% url 'edit_task' task.pk %}" class="btn btn-primary btn-warning" role="button">Edit</a> <a href="{% url 'delete_task' task.pk %}" class="btn btn-primary btn-danger" role="button">Delete</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

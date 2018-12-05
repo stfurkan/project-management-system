@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Projects</li>
+{% endblock %}
+
+{% block content %}
+      {% if user.is_superuser %}
+      <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Project</th>
+            <th>Start Date</th>
+            <th>Total Task Count</th>
+            <th>Active Task Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for project in projects %}
+            <tr>
+              <td>
+                <a href="{% url 'project_tasks' project.pk %}">{{ project.name }}</a>
+                <small class="text-muted d-block">{{ project.description }}</small>
+              </td>
+              <td class="align-middle">{{ project.start_date }}</td>
+              <td>{{ project.get_task_count }}</td>
+              <td>{{ project.get_active_task_count }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% elif user.is_authenticated %}
+          <table class="table">
+              <thead class="thead-inverse">
+                <tr>
+                  <th>Project</th>
+                  <th>Start Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for project in projects %}
+                    {% for pm in pms %}
+                      {% ifequal pm.pm_id|stringformat:"s" user.username  %}
+                        {% ifequal pm.project_id|stringformat:"s" project.name  %}
+                          <tr>
+                            <td>
+                              <a href="{% url 'project_tasks' project.pk %}">{{ project.name }}</a>
+                              <small class="text-muted d-block">{{ project.description }}</small>
+                            </td>
+                            <td class="align-middle">{{ project.start_date }}</td>
+                          </tr>
+                      {% endifequal %}
+                    {% endifequal %}
+                  {% endfor %}
+                {% endfor %}
+              </tbody>
+            </table>
+      {% else %}
+      <div class="jumbotron">
+        <h2>You need to log in to manage your projects!</h2>
+      </div>
+      {% endif %}
+
+{% endblock %}

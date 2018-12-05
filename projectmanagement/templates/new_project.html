@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block title %}Create a New Project{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'home' %}">Projects</a></li>
+  <li class="breadcrumb-item active">New Project</li>
+{% endblock %}
+
+{% block content %}
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+    {% include 'includes/form.html' %}
+
+    <button type="submit" class="btn btn-success">Save Project</button>
+  </form>
+{% endblock %}
